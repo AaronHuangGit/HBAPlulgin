@@ -1,0 +1,45 @@
+plugins {
+    id 'groovy'
+    id 'org.jetbrains.kotlin.jvm' version '1.4.32'
+    id 'java-gradle-plugin'
+    id 'maven'
+}
+
+group = 'com.hisoybean.plugin'
+version = '1.0.1-SNAPSHOT'
+
+repositories {
+    maven { url "http://127.0.0.1:8081/repository/maven-android-public/"}
+}
+
+dependencies {
+    implementation 'com.android.tools.build:gradle:4.1.2'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.4.32'
+    implementation 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.4.32'
+}
+
+configurations.all {
+//    resolutionStrategy.cacheDynamicVersionsFor 0, 'seconds' // 动态版本,例如 3+，latest.integration
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds' // 变化模块
+}
+
+gradlePlugin {
+    plugins {
+        HBAPlugin {
+            id = 'com.hisoybean.plugin.HBAPlugin'
+            implementationClass = 'com.hisoybean.plugin.HBAPlugin'
+        }
+    }
+}
+
+uploadArchives {
+    repositories.mavenDeployer {
+//        repository(url: "http://127.0.0.1:8081/repository/maven-android-release/") {
+//            authentication(userName: "admin", password: "admin")
+//        }
+//        snapshotRepository(url: "http://127.0.0.1:8081/repository/maven-android-snapshot/") {
+//            authentication(userName: "admin", password: "admin")
+//        }
+        repository(url: uri('../repo')) //定义本地maven仓库的地址
+    }
+}
