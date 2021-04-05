@@ -1,5 +1,3 @@
 package com.hisoybean.plugin.base
 
-abstract class HBBaseExtension {
-
-}
+abstract class HBBaseExtension

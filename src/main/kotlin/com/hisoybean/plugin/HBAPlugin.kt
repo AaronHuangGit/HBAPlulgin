@@ -6,6 +6,7 @@ import com.hisoybean.plugin.constants.AndroidCommonDeps
 import com.hisoybean.plugin.constants.AndroidExtensionConstants
 import com.hisoybean.plugin.constants.Plugins
 import com.hisoybean.plugin.constants.Utils
+import com.hisoybean.plugin.service.HBAConfigService
 import com.hisoybean.plugin.tasks.HBATask
 import org.gradle.api.Project
 import org.gradle.api.artifacts.dsl.DependencyHandler
@@ -20,52 +21,6 @@ class HBAPlugin : HBBasePlugin<HBAExtension>() {
 
     private lateinit var projectPath: String
     private var androidExtension: BaseExtension? = null
-//    private val configChangedCallback = object : HBAConfigChangedCallback<HBAConfigProperty> {
-//        override fun onChange(hbaConfigProperty: HBAConfigProperty, value: Any) {
-//            hbaConfigProperty.apply(value)
-//        }
-
-//        override fun onChange(value: Any) {
-//            Utils.printlnLine()
-//            println("apply HBAConfig to AndroidExtension: $propertyName -> $value")
-//            when (propertyName) {
-//                PropertyName.APPLICATION_ID -> {
-//                    androidExtension?.apply {
-//                        defaultConfig.apply {
-//                            (value as? String)?.apply {
-//                                applicationId = this
-//                            }
-//                        }
-//                    }
-//                }
-//                PropertyName.VERSION_CODE -> {
-//                    androidExtension?.apply {
-//                        defaultConfig.apply {
-//                            (value as? Int)?.apply {
-//                                versionCode = this
-//                            }
-//                        }
-//                    }
-//                }
-//                PropertyName.VERSION_NAME -> {
-//                    androidExtension?.apply {
-//                        defaultConfig.apply {
-//                            (value as? String)?.apply {
-//                                versionName = this
-//                            }
-//                        }
-//                    }
-//                }
-//                PropertyName.MAVEN_PUBLISH -> {
-//                    sProject.plugins.apply(Plugins.MAVEN)
-//                }
-//                PropertyName.SYNC_WITH_CLEAN_GRADLE_CACHE -> {
-//
-//                }
-//                else -> return
-//            }
-//        }
-//    }
 
     override fun apply(project: Project) {
         super.apply(project)
@@ -74,7 +29,7 @@ class HBAPlugin : HBBasePlugin<HBAExtension>() {
 
     private fun init(project: Project) {
         Utils.printlnLine()
-        println("****start HBAPlugin configure****")
+        println("****start HBAPlugin configure11111****")
         initData()
         applyCommonPlugins()
         modifyAndroidBaseConfig()
@@ -92,7 +47,8 @@ class HBAPlugin : HBBasePlugin<HBAExtension>() {
     override fun createExtension(): HBAExtension? {
         androidExtension = getAndroidExtension()
         androidExtension ?: return null
-        return project.extensions.create(HBAExtension.EXTENSION_NAME, getExtensionClass())
+        return project.extensions.create(HBAExtension.EXTENSION_NAME
+            , getExtensionClass(), HBAConfigService(project, androidExtension))
     }
 
     private fun initData() {
@@ -119,6 +75,7 @@ class HBAPlugin : HBBasePlugin<HBAExtension>() {
             compileSdkVersion(AndroidExtensionConstants.compileSdkVersion)
             defaultConfig {
                 it.minSdkVersion(AndroidExtensionConstants.minSdkVersion)
+                it.targetSdkVersion(AndroidExtensionConstants.targetSdkVersion)
                 it.testInstrumentationRunner(AndroidExtensionConstants.testInstrumentationRunner)
             }
             compileOptions {
@@ -215,6 +172,7 @@ class HBAPlugin : HBBasePlugin<HBAExtension>() {
         }
     }
 
+    //获取AndroidExtension
     private fun getAndroidExtension(): BaseExtension? {
         return project.extensions.findByName(ANDROID_EXTENSION_NAME) as? BaseExtension
     }
