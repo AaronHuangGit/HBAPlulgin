@@ -11,7 +11,6 @@ open class HBATask : DefaultTask() {
 
     @TaskAction
     fun execute() {
-        println()
     }
 
 }

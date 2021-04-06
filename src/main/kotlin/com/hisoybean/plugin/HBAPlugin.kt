@@ -1,5 +1,6 @@
 package com.hisoybean.plugin
 
+import com.android.build.gradle.AppExtension
 import com.android.build.gradle.BaseExtension
 import com.hisoybean.plugin.base.HBBasePlugin
 import com.hisoybean.plugin.constants.AndroidCommonDeps
@@ -29,7 +30,7 @@ class HBAPlugin : HBBasePlugin<HBAExtension>() {
 
     private fun init(project: Project) {
         Utils.printlnLine()
-        println("****start HBAPlugin configure11111****")
+        println("****start HBAPlugin configure****")
         initData()
         applyCommonPlugins()
         modifyAndroidBaseConfig()
@@ -133,7 +134,7 @@ class HBAPlugin : HBBasePlugin<HBAExtension>() {
             println("buildType name: ${it.name}")
             it.signingConfig = signingConfigs.getByName("HBASignConfig")
             it.proguardFiles = mutableListOf(File("proguard-rules.pro"))
-            if (it.name == "release") {
+            if (it.name == "release" && this is AppExtension) {
                 it.minifyEnabled(true)
                 it.isShrinkResources = true
             }

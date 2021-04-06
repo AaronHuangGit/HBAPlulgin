@@ -2,14 +2,17 @@ plugins {
     id 'groovy'
     id 'org.jetbrains.kotlin.jvm' version '1.4.32'
     id 'java-gradle-plugin'
-    id 'maven'
+    id 'maven-publish'
 }
 
-group = 'com.hisoybean.plugin'
-version = '1.0.1-SNAPSHOT'
+group 'com.hisoybean.android.plugin'
+version '1.0.1-SNAPSHOT'
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
-    maven { url "http://127.0.0.1:8081/repository/maven-android-public/"}
+    maven { url "http://127.0.0.1:8081/repository/maven-android-public/" }
 }
 
 dependencies {
@@ -21,20 +24,26 @@ dependencies {
 gradlePlugin {
     plugins {
         HBAPlugin {
-            id = 'com.hisoybean.plugin.HBAPlugin'
+            id = 'com.hisoybean.android.plugin.HBAPlugin'
             implementationClass = 'com.hisoybean.plugin.HBAPlugin'
         }
     }
 }
 
-uploadArchives {
-    repositories.mavenDeployer {
-//        repository(url: "http://127.0.0.1:8081/repository/maven-android-release/") {
-//            authentication(userName: "admin", password: "admin")
-//        }
-//        snapshotRepository(url: "http://127.0.0.1:8081/repository/maven-android-snapshot/") {
-//            authentication(userName: "admin", password: "admin")
-//        }
-        repository(url: uri('../repo')) //定义本地maven仓库的地址
+publishing {
+    publications {
+        //gradle插件开发这里不需要添加发布，由java-gradle-plugin自动创建发布
+    }
+    repositories {
+        maven {
+            def releasesRepoUrl = "http://127.0.0.1:8081/repository/maven-android-release/"
+            def snapshotsRepoUrl = "http://127.0.0.1:8081/repository/maven-android-snapshot/"
+
+            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+            credentials {
+                username = 'admin'
+                password = 'admin'
+            }
+        }
     }
 }
