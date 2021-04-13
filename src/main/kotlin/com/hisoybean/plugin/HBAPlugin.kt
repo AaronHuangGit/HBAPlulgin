@@ -83,8 +83,8 @@ class HBAPlugin : HBBasePlugin<HBAExtension>() {
                 it.sourceCompatibility = AndroidExtensionConstants.compileOptionsJavaVersion
                 it.targetCompatibility = AndroidExtensionConstants.compileOptionsJavaVersion
             }
-            addSigningConfigs()
-            configureBuildTypes()
+//            addSigningConfigs()
+//            configureBuildTypes()
             project.tasks.withType(KotlinCompile::class.java).configureEach {
                 it.kotlinOptions {
                     jvmTarget = AndroidExtensionConstants.kotlinOptionJvmTarget
