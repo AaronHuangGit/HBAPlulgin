@@ -6,13 +6,13 @@ plugins {
 }
 
 group 'com.hisoybean.android.plugin'
-version '1.0.1-SNAPSHOT'
+version '1.0.2-SNAPSHOT'
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
 repositories {
-    maven { url "http://127.0.0.1:8081/repository/maven-android-public/" }
+    maven { url "http://maven.championai.com/repository/maven-android-public/" }
 }
 
 dependencies {
@@ -30,20 +30,4 @@ gradlePlugin {
     }
 }
 
-publishing {
-    publications {
-        //gradle插件开发这里不需要添加发布，由java-gradle-plugin自动创建发布
-    }
-    repositories {
-        maven {
-            def releasesRepoUrl = "http://127.0.0.1:8081/repository/maven-android-release/"
-            def snapshotsRepoUrl = "http://127.0.0.1:8081/repository/maven-android-snapshot/"
-
-            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
-            credentials {
-                username = 'admin'
-                password = 'admin'
-            }
-        }
-    }
-}
+apply from: 'maven.gradle'
