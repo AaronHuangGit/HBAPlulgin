@@ -101,7 +101,7 @@ dependencies {
 }
 ```
 
-##目前HBAPlugin内容
+## 目前HBAPlugin内容
 - 添加公共插件，例如kotlin
 - 添加Android公共基础配置，例如compileSdkVersion，minSdkVersion，targetSdkVersion等
 - 添加公共依赖，例如kotlin-stdlib，androidx-core-ktx,androidx-appcompat等
